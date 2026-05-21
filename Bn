@@ -1,1 +1,447 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mod Menu Download Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
+    body {
+      background: #070b14;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(0,255,200,0.15), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(0,120,255,0.18), transparent 30%);
+      z-index: -1;
+    }
+
+    .navbar {
+      width: 100%;
+      padding: 20px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(16px);
+      background: rgba(5,10,20,0.6);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 999;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #00ffd0, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #cfd8e3;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #00ffd0;
+    }
+
+    .hero {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 8% 40px;
+    }
+
+    .hero-content {
+      max-width: 900px;
+    }
+
+    .hero h1 {
+      font-size: 70px;
+      line-height: 1.05;
+      margin-bottom: 24px;
+      font-weight: 800;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(90deg, #00ffd0, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: #b0bdd0;
+      font-size: 20px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 15px 28px;
+      border-radius: 14px;
+      border: none;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.35s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #00ffd0, #0099ff);
+      color: black;
+      box-shadow: 0 10px 30px rgba(0,255,200,0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(0,255,200,0.45);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.15);
+      color: white;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-4px);
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title h2 {
+      font-size: 48px;
+      margin-bottom: 14px;
+    }
+
+    .section-title p {
+      color: #9fb0c8;
+      font-size: 18px;
+    }
+
+    .mods-section {
+      padding: 40px 8% 100px;
+    }
+
+    .mods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .mod-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 26px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: 0.35s;
+      backdrop-filter: blur(18px);
+    }
+
+    .mod-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(0,255,200,0.45);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+    }
+
+    .mod-badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: linear-gradient(90deg, #00ffd0, #0099ff);
+      color: black;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .mod-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(0,255,200,0.2), rgba(0,120,255,0.25));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin-bottom: 24px;
+    }
+
+    .mod-card h3 {
+      font-size: 26px;
+      margin-bottom: 14px;
+    }
+
+    .mod-card p {
+      color: #b8c4d8;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .feature {
+      background: rgba(255,255,255,0.07);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: #d7e0ee;
+    }
+
+    .download-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .stats {
+      padding: 60px 8%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.05);
+      border-radius: 22px;
+      padding: 30px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .stat-box h3 {
+      font-size: 40px;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #00ffd0, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-box p {
+      color: #b8c4d8;
+    }
+
+    footer {
+      padding: 40px 8%;
+      text-align: center;
+      color: #8fa0b8;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 42px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .section-title h2 {
+        font-size: 34px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">MOD HUB</div>
+    <div class="nav-links">
+      <a href="#mods">Mods</a>
+      <a href="#stats">Thống kê</a>
+      <a href="#footer">Liên hệ</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Tải <span>5 Mod Menu</span><br>Siêu Chuyên Nghiệp</h1>
+      <p>
+        Kho mod menu giao diện premium với hiệu ứng hiện đại, tốc độ cao,
+        tối ưu cho Android, PC và giả lập. Download nhanh chỉ với 1 click.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#mods" class="btn btn-primary">🚀 Download Ngay</a>
+        <a href="#stats" class="btn btn-outline">📊 Xem Thống Kê</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mods-section" id="mods">
+    <div class="section-title">
+      <h2>Top Mod Menu Premium</h2>
+      <p>5 phiên bản mod menu được tải nhiều nhất hiện nay</p>
+    </div>
+
+    <div class="mods-grid">
+
+      <div class="mod-card">
+        <div class="mod-badge">HOT</div>
+        <div class="mod-icon">🔥</div>
+        <h3>Shadow Menu</h3>
+        <p>
+          Mod menu giao diện dark cyber cực đẹp với FPS unlock và anti-lag mạnh.
+        </p>
+
+        <div class="features">
+          <div class="feature">FPS Boost</div>
+          <div class="feature">No Lag</div>
+          <div class="feature">VIP UI</div>
+        </div>
+
+        <a href="#" class="btn btn-primary download-btn">⬇ Download</a>
+      </div>
+
+      <div class="mod-card">
+        <div class="mod-badge">NEW</div>
+        <div class="mod-icon">⚡</div>
+        <h3>NeonX Menu</h3>
+        <p>
+          Thiết kế neon animation hiện đại với nhiều tính năng tối ưu gameplay.
+        </p>
+
+        <div class="features">
+          <div class="feature">Neon UI</div>
+          <div class="feature">Fast Inject</div>
+          <div class="feature">Secure</div>
+        </div>
+
+        <a href="#" class="btn btn-primary download-btn">⬇ Download</a>
+      </div>
+
+      <div class="mod-card">
+        <div class="mod-badge">PRO</div>
+        <div class="mod-icon">💎</div>
+        <h3>Elite Panel</h3>
+        <p>
+          Gói mod chuyên nghiệp với nhiều công cụ nâng cao và hiệu ứng mượt.
+        </p>
+
+        <div class="features">
+          <div class="feature">Premium</div>
+          <div class="feature">Smooth UI</div>
+          <div class="feature">No Ads</div>
+        </div>
+
+        <a href="#" class="btn btn-primary download-btn">⬇ Download</a>
+      </div>
+
+      <div class="mod-card">
+        <div class="mod-badge">BEST</div>
+        <div class="mod-icon">🚀</div>
+        <h3>Quantum Mod</h3>
+        <p>
+          Hiệu năng tối đa cho game mobile với khả năng tối ưu CPU/GPU.
+        </p>
+
+        <div class="features">
+          <div class="feature">Ultra Fast</div>
+          <div class="feature">GPU Boost</div>
+          <div class="feature">AI Engine</div>
+        </div>
+
+        <a href="#" class="btn btn-primary download-btn">⬇ Download</a>
+      </div>
+
+      <div class="mod-card">
+        <div class="mod-badge">VIP</div>
+        <div class="mod-icon">👑</div>
+        <h3>Titan Menu</h3>
+        <p>
+          Bộ mod menu cao cấp với giao diện glassmorphism và tốc độ tải siêu nhanh.
+        </p>
+
+        <div class="features">
+          <div class="feature">Glass UI</div>
+          <div class="feature">Stable</div>
+          <div class="feature">Premium FX</div>
+        </div>
+
+        <a href="#" class="btn btn-primary download-btn">⬇ Download</a>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="stats" id="stats">
+    <div class="stat-box">
+      <h3>500K+</h3>
+      <p>Lượt Download</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>99%</h3>
+      <p>Người dùng hài lòng</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>24/7</h3>
+      <p>Support Online</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>5★</h3>
+      <p>Đánh giá trung bình</p>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <p>© 2026 MOD HUB • Designed with Premium UI</p>
+  </footer>
+
+</body>
+</html>
